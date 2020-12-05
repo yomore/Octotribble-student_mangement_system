@@ -21,14 +21,14 @@ class Staffs(models.Model):
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
 
-class Course(models.Model):
+class Courses(models.Model):
     id=models.AutoField(primary_key=True)
     course_name=models.CharField(max_length=255)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
 
-class Subjects(model.Model):
+class Subjects(models.Model):
     id=models.AutoField(primary_key=True)
     subject_name=models.CharField(max_length=255)
     course_id=models.ForeignKey(Courses, on_delete=models.CASCADE)    #relating courses and subjects
@@ -45,7 +45,7 @@ class Students(models.Model):
     email=models.CharField(max_length=255)
     password=models.CharField(max_length=255)
     gender=models.CharField(max_length=255)
-    profile_pic=models.models.FileField()
+    profile_pic=models.FileField()
     address=models.TextField()
     course_id=models.ForeignKey(Courses,on_delete=models.DO_NOTHING)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -91,7 +91,7 @@ class LeaveReportStaff(models.Model):
 class FeedBackStudent(models.Model):
     id=models.AutoField(primary_key=True)
     student_id=models.ForeignKey(Students,on_delete=models.CASCADE)
-    feedback=models.models.TextField()
+    feedback=models.TextField()
     feedback_reply=models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
@@ -108,15 +108,15 @@ class FeedBackStaff(models.Model):
 
 class NotificationsStudent(models.Model):
     id= models.AutoField(primary_key=True)
-    student_id=models.ForeignKey(Students,on_delete=models.CAS
-    message=models.TextField()
+    student_id=models.ForeignKey(Students,on_delete=models.CASCADE)
+    message =models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
 
 class NotificationsStaffs(models.Model):
     id= models.AutoField(primary_key=True)
-    staff_id=models.ForeignKey(Staffs,on_delete=models.CAS
+    staff_id=models.ForeignKey(Staffs,on_delete=models.CASCADE)
     message=models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
