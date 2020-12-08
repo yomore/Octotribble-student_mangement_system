@@ -1,9 +1,16 @@
-from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.db import models 
+
 
 # Create your models here.
 
+class CustomUser(AbstractUser):       #created this for admin,staff and students sectioning
+    user_type_data=((1,"HOD"), (2,"Staff"), (3,"Student"))         #created tupple
+    user_type=models.CharField(default=1,choices=user_type_data, max_length=10)      #providing options to access
+
 class AdminHOD(models.Model):
     id=models.AutoField(primary_key=True)
+    admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
     name=models.CharField(max_length=255)
     email=models.CharField(max_length=255)
     password=models.CharField(max_length=255)
@@ -13,6 +20,7 @@ class AdminHOD(models.Model):
 
 class Staffs(models.Model):
     id=models.AutoField(primary_key=True)
+    admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
     name=models.CharField(max_length=255)
     email=models.CharField(max_length=255)
     password=models.CharField(max_length=255)
@@ -41,6 +49,7 @@ class Subjects(models.Model):
 
 class Students(models.Model):
     id=models.AutoField(primary_key=True)
+    admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
     name=models.CharField(max_length=255)
     email=models.CharField(max_length=255)
     password=models.CharField(max_length=255)
@@ -48,9 +57,11 @@ class Students(models.Model):
     profile_pic=models.FileField()
     address=models.TextField()
     course_id=models.ForeignKey(Courses,on_delete=models.DO_NOTHING)
+    session_start_year=models.DateField()
+    session_end_year=models.DateField()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
-
+    objects=models.Manager()
 class Attendance(models.Model):
     id=models.AutoField(primary_key=True)
     subject_id=models.ForeignKey(Subjects,on_delete=models.DO_NOTHING)
